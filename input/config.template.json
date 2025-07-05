@@ -1,0 +1,30 @@
+{
+  "website": {
+    "url": "https://cholimexfood.dmsone.vn/login",
+    "name": "Order Management System"
+  },
+  "credentials": {
+    "username": "GADMIN",
+    "password": "Ch0oL!iM3ex#2024"
+  },
+  "selectors": {
+    "username_field": "#username",
+    "password_field": "#password",
+    "login_button": "//*[@id=\"fm1\"]/fieldset/div[3]/input[3]",
+    "dashboard_indicator": "//*[@id=\"638\"]",
+    "search_button": "//*[@id=\"btnSearch\"]/span",
+    "menu_638": "//*[@id=\"638\"]/a",
+    "dms_report_kpi": "//*[@id=\"DMS_REPORT_KPI\"]/ins",
+    "rpt_kpi_staff": "//*[@id=\"RPT_KPI_STAFF\"]/a",
+    "kpi_dropdown": "//*[@id=\"lstKPI\"]",
+    "dhtc_option_text": "DHTC - Đơn hàng thành công",
+    "from_month_field": "//*[@id=\"fromMonth\"]",
+    "month_year_picker_year": "select.mtz-monthpicker.mtz-monthpicker-year",
+    "month_year_picker_month": "td.mtz-monthpicker-month[data-month=\"{month}\"]"
+  },
+  "settings": {
+    "wait_timeout": 30000,
+    "auto_wait": true,
+    "fast_mode": false
+  }
+}
