@@ -23,20 +23,83 @@ def show_menu():
     print("0. ❌ Thoát")
     print("="*60)
 
+def get_script_path(script_name):
+    """Lấy đường dẫn đúng của script khi chạy từ package hoặc dev"""
+    import sys
+    from pathlib import Path
+    
+    if getattr(sys, 'frozen', False):
+        # Chạy từ package (exe)
+        if hasattr(sys, '_MEIPASS'):
+            # PyInstaller bundle
+            base_path = Path(sys._MEIPASS)
+        else:
+            # Fallback
+            base_path = Path(sys.executable).parent
+    else:
+        # Dev mode
+        base_path = Path(__file__).parent
+    
+    script_path = base_path / script_name
+    if script_path.exists():
+        return str(script_path)
+    else:
+        # Fallback - chỉ dùng tên file
+        return script_name
+
 def run_full_system():
     """Chạy hệ thống hoàn chỉnh"""
     print("\n🚀 Đang khởi chạy hệ thống hoàn chỉnh...")
-    os.system("python check_oder.py")
+    
+    try:
+        # Kiểm tra xem có đang chạy trong package không
+        import sys
+        if getattr(sys, 'frozen', False):
+            # Đang chạy trong package - import và chạy trực tiếp
+            from check_oder import main as check_order_main
+            check_order_main()
+        else:
+            # Đang chạy development mode
+            script_path = get_script_path("check_oder.py")
+            os.system(f'python "{script_path}"')
+    except Exception as e:
+        print(f"❌ Lỗi chạy hệ thống: {e}")
 
 def run_excel_only():
     """Chỉ xử lý Excel"""
     print("\n📊 Đang xử lý file Excel...")
-    os.system("python process_excel.py")
+    
+    try:
+        # Kiểm tra xem có đang chạy trong package không
+        import sys
+        if getattr(sys, 'frozen', False):
+            # Đang chạy trong package - import và chạy trực tiếp
+            from process_excel import main as process_excel_main
+            process_excel_main()
+        else:
+            # Đang chạy development mode
+            script_path = get_script_path("process_excel.py")
+            os.system(f'python "{script_path}"')
+    except Exception as e:
+        print(f"❌ Lỗi xử lý Excel: {e}")
 
 def check_system():
     """Kiểm tra hệ thống"""
     print("\n🔍 Đang kiểm tra hệ thống...")
-    os.system("python test_system.py")
+    
+    try:
+        # Kiểm tra xem có đang chạy trong package không
+        import sys
+        if getattr(sys, 'frozen', False):
+            # Đang chạy trong package - import và chạy trực tiếp
+            from test_system import main as test_system_main
+            test_system_main()
+        else:
+            # Đang chạy development mode
+            script_path = get_script_path("test_system.py")
+            os.system(f'python "{script_path}"')
+    except Exception as e:
+        print(f"❌ Lỗi kiểm tra hệ thống: {e}")
 
 def toggle_summary():
     """Bật/tắt tạo file tổng hợp"""
@@ -83,7 +146,17 @@ else:
 
 def open_output_folder():
     """Mở thư mục kết quả"""
-    output_dir = Path(__file__).parent / "output"
+    import sys
+    
+    # Xác định base path đúng khi chạy trong package
+    if getattr(sys, 'frozen', False):
+        # Chạy từ package
+        base_path = Path(sys.executable).parent
+    else:
+        # Dev mode
+        base_path = Path(__file__).parent
+    
+    output_dir = base_path / "output"
     today = datetime.now().strftime("%d%m%Y")
     daily_dir = output_dir / today
     
@@ -98,7 +171,17 @@ def open_output_folder():
 
 def show_guide():
     """Hiển thị hướng dẫn"""
-    guide_file = Path(__file__).parent / "HUONG_DAN.md"
+    import sys
+    
+    # Xác định base path đúng khi chạy trong package  
+    if getattr(sys, 'frozen', False):
+        # Chạy từ package
+        base_path = Path(sys.executable).parent
+    else:
+        # Dev mode
+        base_path = Path(__file__).parent
+        
+    guide_file = base_path / "HUONG_DAN.md"
     if guide_file.exists():
         print(f"📖 Mở file hướng dẫn: {guide_file}")
         os.startfile(str(guide_file))
@@ -127,9 +210,19 @@ def setup_environment():
     
     # Kiểm tra browser
     print("\n🌐 Kiểm tra browser...")
+    import sys
+    
+    # Xác định base path đúng khi chạy trong package
+    if getattr(sys, 'frozen', False):
+        # Chạy từ package
+        base_path = Path(sys.executable).parent
+    else:
+        # Dev mode
+        base_path = Path(__file__).parent
+    
     browser_dirs = [
-        Path(__file__).parent / "chromium-browser",
-        Path(__file__).parent / "chromium"
+        base_path / "chromium-browser",
+        base_path / "chromium"
     ]
     
     browser_found = False
@@ -149,7 +242,7 @@ def setup_environment():
     print("\n📁 Kiểm tra thư mục...")
     dirs = ["input", "output"]
     for dir_name in dirs:
-        dir_path = Path(__file__).parent / dir_name
+        dir_path = base_path / dir_name
         if dir_path.exists():
             print(f"✅ {dir_name}/: OK")
         else:

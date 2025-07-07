@@ -1,22 +1,23 @@
-# 🎯 ORDER CHECKER - EXCEL AUTOMATION TOOL
+# 🎯 ORDER CHECKER - EXCEL AUTOMATION TOOL v2.0
 
-**Công cụ tự động tải và xử lý báo cáo Excel từ web sử dụng Playwright**
+**Hệ thống tự động check orders và xử lý Excel chuyên nghiệp với 10 bước nghiệp vụ**
 
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://python.org)
 [![Playwright](https://img.shields.io/badge/Playwright-Latest-green.svg)](https://playwright.dev)
+[![Version](https://img.shields.io/badge/Version-2.0.0-brightgreen.svg)](https://github.com/your-repo/releases)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Contributions](https://img.shields.io/badge/Contributions-Welcome-brightgreen.svg)](CONTRIBUTING.md)
 
-## � Tính năng chính
+## ✨ Tính năng chính v2.0
 
-✅ **Automation hoàn chỉnh**: Đăng nhập, điều hướng, chọn báo cáo, tải file Excel  
-✅ **Xử lý Excel nâng cao**: Lọc dữ liệu, ẩn cột/dòng, format đẹp  
-✅ **Tự động chọn tháng/năm**: Dựa trên ngày hiện tại (lùi 1 ngày)  
-✅ **Template system**: Quản lý danh sách báo cáo qua Excel template  
-✅ **Gộp file kết quả**: Tạo file "Kết quả.xlsx" với nhiều sheet  
-✅ **Headless browser**: Chạy ẩn, không hiển thị giao diện  
-✅ **Chromium tích hợp**: Không cần cài browser trên máy đích  
-✅ **Portable executable**: Đóng gói thành file .exe độc lập  
+🚀 **Hệ thống tự động hoàn chỉnh**: Check orders + xử lý Excel tích hợp  
+📊 **Xử lý Excel chuyên nghiệp**: 10 bước nghiệp vụ (ẩn dòng/cột, freeze panes, auto-fit)  
+🎛️ **Menu quản lý thân thiện**: Giao diện dễ sử dụng với menu.py  
+🔍 **Công cụ kiểm tra**: test_system.py để debug và monitoring  
+📋 **File tổng hợp tùy chọn**: Tạo "Kết quả.xlsx" (mặc định tắt)  
+📖 **Tài liệu chi tiết**: Hướng dẫn đầy đủ và tổng kết hệ thống  
+🔧 **Không mất dữ liệu gốc**: Bảo toàn file nguồn, dễ mở rộng  
+⚡ **Hiệu suất cao**: Xử lý nhanh, báo cáo chi tiết  
 
 ## 📋 Luồng hoạt động
 
@@ -339,3 +340,67 @@ See [CHANGELOG.md](CHANGELOG.md) for detailed version history and updates.
 
 ---
 **Made with ❤️ using Playwright & Python**
+
+## 🗂️ Cấu trúc Project v2.0
+
+```
+📦 Check Oders/
+├── 🚀 check_oder.py           # Hệ thống chính - tự động check orders
+├── 📊 process_excel.py        # Xử lý Excel chuyên nghiệp (10 bước)
+├── 🎛️ menu.py                 # Menu quản lý hệ thống
+├── 🔍 test_system.py          # Kiểm tra và debug hệ thống
+├── 📖 HUONG_DAN.md            # Hướng dẫn chi tiết v2.0
+├── 📋 FINAL_SUMMARY.md        # Tổng kết hệ thống hoàn thiện
+├── 📂 input/                  # Cấu hình và template
+│   ├── 📋 template.xlsx       # Danh sách báo cáo
+│   └── ⚙️ config.json         # Cấu hình hệ thống
+├── 📂 output/                 # Kết quả theo ngày
+│   └── 📅 DDMMYYYY/           # File Excel đã xử lý
+└── 🐍 myenv/                  # Python virtual environment
+```
+
+## 🎯 Cách sử dụng v2.0
+
+### 🚀 Cách nhanh nhất - Menu quản lý:
+
+```bash
+python menu.py
+```
+
+Menu cung cấp:
+- 🚀 Chạy hệ thống hoàn chỉnh
+- 📊 Chỉ xử lý Excel
+- 🔍 Kiểm tra hệ thống
+- 📋 Bật/tắt file tổng hợp
+- 📁 Mở thư mục kết quả
+- 📖 Xem hướng dẫn
+
+### 📊 Xử lý Excel chuyên nghiệp (10 bước):
+
+```bash
+python process_excel.py
+```
+
+**Nghiệp vụ xử lý:**
+1. Ẩn dòng 1-3 (header)
+2. Ẩn dòng có cột A rỗng
+3. Ẩn dòng có cột B rỗng
+4. Ẩn dòng có cột D rỗng AND cột C ≠ ""
+5. Xóa dữ liệu dòng có cột C rỗng (từ K trở đi)
+6. Ẩn dòng K chứa "NPP bán"
+7. Ẩn dòng có cột Q > 0
+8. Ẩn dòng rỗng liên tiếp cột Q
+9. Ẩn cột S+, A-F, M-N
+10. Freeze panes + Auto-fit cột I/K
+
+### 🔍 Kiểm tra hệ thống:
+
+```bash
+python test_system.py
+```
+
+Kiểm tra:
+- ✅ Import modules
+- ✅ Thư mục và file
+- ✅ Cấu hình
+- ✅ Tích hợp
