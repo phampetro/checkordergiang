@@ -70,7 +70,7 @@ class ExcelProcessor:
         5 dòng đầu tiêu đề
         B1: Ẩn từ dòng 1 đến dòng 3
         B2: Ẩn dòng có cột A rỗng
-        B3: Ẩn dòng có cột B rỗng
+        B3: Ẩn dòng có cột B rỗng, C rỗng VÀ F KHÁC rỗng
         B4: Ẩn dòng có cột D rỗng AND cột C <> ""
         B4: Xóa dữ liệu của các dòng có cột C rỗng, xóa từ K trở đi
         B5: Ẩn các dòng K có chứa nội dung "NPP bán"
@@ -101,12 +101,19 @@ class ExcelProcessor:
                     ws.row_dimensions[row_num].hidden = True
                     hidden_count_a += 1
             
-            # B3: Ẩn dòng có cột B rỗng (chỉ xét dòng chưa bị ẩn)
+            # B3: Ẩn dòng có cột B rỗng, C rỗng VÀ F KHÁC rỗng (chỉ xét dòng chưa bị ẩn)
             hidden_count_b = 0
             for row_num in range(6, row_count + 1):
                 if not ws.row_dimensions[row_num].hidden:
-                    cell_b = ws.cell(row_num, 2)
-                    if cell_b.value is None or str(cell_b.value).strip() == "":
+                    cell_b = ws.cell(row_num, 2) # Cột B
+                    cell_c = ws.cell(row_num, 3) # Cột C
+                    cell_f = ws.cell(row_num, 6) # Cột F
+                    
+                    b_is_empty = cell_b.value is None or str(cell_b.value).strip() == ""
+                    c_is_empty = cell_c.value is None or str(cell_c.value).strip() == ""
+                    f_is_not_empty = cell_f.value is not None and str(cell_f.value).strip() != ""
+                    
+                    if b_is_empty and c_is_empty and f_is_not_empty:
                         ws.row_dimensions[row_num].hidden = True
                         hidden_count_b += 1
             
@@ -138,14 +145,17 @@ class ExcelProcessor:
                                 pass  # Bỏ qua MergedCell
                         cleared_count_c += 1
             
-            # B5: Ẩn các dòng K có chứa nội dung "NPP bán"
+            # B5: Ẩn các dòng ở cột K chứa các từ khóa chỉ định (NPP Bán, NPP tự bán, TMDT...)
             hidden_count_k = 0
+            keywords_to_hide = ["NPP Bán", "NPP tự bán", "TMDT Lazada", "TMDT Sendo", "TMDT Tiki", "TT Bán"]
             for row_num in range(6, row_count + 1):
                 if not ws.row_dimensions[row_num].hidden:
                     cell_k = ws.cell(row_num, 11)  # Cột K
-                    if cell_k.value is not None and "NPP Bán" in str(cell_k.value):
-                        ws.row_dimensions[row_num].hidden = True
-                        hidden_count_k += 1
+                    if cell_k.value is not None:
+                        cell_value_str = str(cell_k.value)
+                        if any(keyword in cell_value_str for keyword in keywords_to_hide):
+                            ws.row_dimensions[row_num].hidden = True
+                            hidden_count_k += 1
             
             # B6: Ẩn dòng có cột Q > 0 (giữ lại dòng rỗng và 0)
             hidden_count_q = 0
@@ -472,4 +482,3 @@ def process_excel_for_check_order():
 
 if __name__ == "__main__":
     main()
-
