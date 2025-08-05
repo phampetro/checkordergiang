@@ -69,6 +69,7 @@ class ExcelProcessor:
         Xử lý một file Excel theo từng bước tuần tự:
         5 dòng đầu tiêu đề
         B1: Ẩn từ dòng 1 đến dòng 3
+        B1.1: Ẩn các dòng có cột K chứa nội dung "TMDT"
         B2: Ẩn dòng có cột A rỗng
         B3: Ẩn dòng có cột B rỗng, C rỗng VÀ F KHÁC rỗng
         B4: Ẩn dòng có cột D rỗng AND cột C <> ""
@@ -92,6 +93,13 @@ class ExcelProcessor:
             # B1: Ẩn từ dòng 1 đến dòng 3
             for row_num in range(1, 4):  # Dòng 1, 2, 3
                 ws.row_dimensions[row_num].hidden = True
+            # B1.1: Ẩn các dòng có cột K chứa nội dung "TMDT" (chỉ cần chứa, không cần chính xác)
+            hidden_count_k_tmdt = 0
+            for row_num in range(6, row_count + 1):
+                cell_k = ws.cell(row_num, 11)  # Cột K
+                if cell_k.value is not None and "TMDT" in str(cell_k.value):
+                    ws.row_dimensions[row_num].hidden = True
+                    hidden_count_k_tmdt += 1
             
             # B2: Ẩn dòng có cột A rỗng (từ dòng 6 trở đi, bỏ qua tiêu đề dòng 4-5)
             hidden_count_a = 0

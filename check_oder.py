@@ -167,10 +167,10 @@ class OrderChecker:
                 if self.chromium_path and os.path.exists(self.chromium_path):
                     browser = p.chromium.launch(
                         executable_path=self.chromium_path,
-                        headless=True
+                        headless=False
                     )
                 else:
-                    browser = p.chromium.launch(headless=True)
+                    browser = p.chromium.launch(headless=False)
 
                 context = browser.new_context()
                 page = context.new_page()
