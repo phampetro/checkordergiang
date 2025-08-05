@@ -100,6 +100,13 @@ class ExcelProcessor:
                 if cell_k.value is not None and "TMDT" in str(cell_k.value):
                     ws.row_dimensions[row_num].hidden = True
                     hidden_count_k_tmdt += 1
+            # B1.2: Ẩn dòng có cột J = "NVNPP015"
+            hidden_count_j_nvnpp015 = 0
+            for row_num in range(6, row_count + 1):
+                cell_j = ws.cell(row_num, 10)  # Cột J
+                if cell_j.value is not None and str(cell_j.value).strip() == "NVNPP015":
+                    ws.row_dimensions[row_num].hidden = True
+                    hidden_count_j_nvnpp015 += 1
             
             # B2: Ẩn dòng có cột A rỗng (từ dòng 6 trở đi, bỏ qua tiêu đề dòng 4-5)
             hidden_count_a = 0
